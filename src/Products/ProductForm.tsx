@@ -1,16 +1,19 @@
 import React, {useState} from 'react';
-import {IProduct, addProduct} from "./products.slice";
+import {IProduct, addAsyncProduct, getErrorMessage} from "./products.slice";
 import {useAppDispatch} from "../store.hooks";
+import {useSelector} from "react-redux";
+import "./ProductForm.scss"
 
-const ProductForm: React.FC = ({}) => {
+const ProductForm: React.FC = () => {
 
     const dispatch = useAppDispatch()
+    const errorMessage = useSelector(getErrorMessage)
 
-    const [product, setProduct] = useState<IProduct>({
+    const [{id, name, price, qty}, setProduct] = useState<IProduct>({
         id: '',
         name: '',
         price: 0,
-        qty: 0
+        qty: 1
     })
 
     const handleChange = ({target: {name, value}}: React.ChangeEvent<HTMLInputElement>) => setProduct(prev => {
@@ -21,21 +24,20 @@ const ProductForm: React.FC = ({}) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        dispatch(addProduct(product))
+        dispatch(addAsyncProduct({id, name, price, qty}))
     }
-    const {id, name, price, qty} = product
     return (
-        <>
-            <h2>Добавить игру в корзину</h2>
-            <div>
-                <form onSubmit={handleSubmit}>
-                    <input type="text" placeholder="Название" name="name" value={name} onChange={handleChange}/>
-                    <input type="number" placeholder="Стоимость" name="price" value={price} onChange={handleChange}/>
-                    <input type="text" placeholder="id" name="id" value={id} onChange={handleChange}/>
-                    <button type="submit">Добавить игру</button>
-                </form>
-            </div>
-        </>
+        <div className="product-form">
+            <h2 className="product-form__title">Добавить игру в корзину</h2>
+            {errorMessage && <span>{errorMessage}</span>}
+            <form className="product-form__form" onSubmit={handleSubmit}>
+                <input className="product-form__input input" style={{border: errorMessage ? '1px solid #f00' : '1px solid #000'}} type="text" placeholder="Название" name="name" value={name} onChange={handleChange}/>
+                <input className="product-form__input input" style={{border: errorMessage ? '1px solid #f00' : '1px solid #000'}} type="number" placeholder="Стоимость" name="price" value={price} onChange={handleChange}/>
+                <input className="product-form__input input" style={{border: errorMessage ? '1px solid #f00' : '1px solid #000'}} type="number" placeholder="Количество" name="qty" value={qty} onChange={handleChange}/>
+                <input className="product-form__input input" style={{border: errorMessage ? '1px solid #f00' : '1px solid #000'}} type="text" placeholder="id" name="id" value={id} onChange={handleChange}/>
+                <button className="product-form__btn btn" type="submit">Добавить игру</button>
+            </form>
+        </div>
     );
 };
 

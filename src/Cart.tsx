@@ -1,17 +1,16 @@
 import React from 'react';
 import ProductsList from "./Products/ProductsList";
 import ProductForm from "./Products/ProductForm";
-import {useAppSelector} from "./store.hooks";
-import {getTotalPrice} from "./Products/products.slice";
+import Summary from "./Products/Summary";
+import "./Cart.scss"
 
 const Cart: React.FC = () => {
 
-    const totalPrice = useAppSelector(getTotalPrice)
     return (
-        <div>
-            <h5>{totalPrice}</h5>
-            <ProductsList/>
+        <div className="cart">
             <ProductForm/>
+            <ProductsList/>
+            <Summary/>
         </div>
     );
 };
