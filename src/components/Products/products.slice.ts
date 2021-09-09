@@ -1,12 +1,16 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {RootState} from "../store";
-import {fetchProducts, validateProduct} from "../fake.api";
+import {RootState} from "../../store/store";
+import {fetchProducts, validateProduct} from "../../api/fake.api";
+import morrowind from "../../images/morrowind.png"
+import witcher from "../../images/witcher.png"
+import dummy from "../../images/dummy.png"
 
 export interface IProduct {
     id: string,
     name: string,
     price: number,
-    qty: number
+    qty: number,
+    img: string
 }
 
 export enum ValidationState {
@@ -15,7 +19,7 @@ export enum ValidationState {
     Rejected
 }
 
-interface IProductsSliceState {
+export interface IProductsSliceState {
     products: IProduct[],
     validationState?: ValidationState,
     errorMessage?: string,
@@ -36,9 +40,9 @@ export const addAsyncProduct = createAsyncThunk(
 )
 
 const initialProducts: IProduct[] = [
-    {id: '1', name: 'Witcher', price: 50, qty: 1},
-    {id: '2', name: 'Heroes', price: 40, qty: 2},
-    {id: '3', name: 'Morrowind', price: 60, qty: 3},
+    {id: '1', name: 'Witcher', price: 50, qty: 1, img: witcher},
+    {id: '2', name: 'Heroes', price: 40, qty: 2, img: dummy},
+    {id: '3', name: 'Morrowind', price: 60, qty: 3, img: morrowind},
 ]
 
 const initialState: IProductsSliceState = {
@@ -47,21 +51,12 @@ const initialState: IProductsSliceState = {
     errorMessage: undefined,
 }
 
+const generateRandomId = () => '_' + Math.random().toString(36).substr(2, 9);
+
 const productsSlice = createSlice({
     name: 'products',
     initialState,
     reducers: {
-        addProduct: (state, action: PayloadAction<IProduct>) => {
-            const productIndex = state.products.findIndex(product => product.id === action.payload.id)
-            if(productIndex !== -1) {
-                state.products[productIndex].qty += 1
-                state.products[productIndex].price += +action.payload.price
-            } else {
-                //Мы можем так делать, потому что redux-toolkit использует Immer
-                state.products.push(action.payload)
-                //state.total_price += +action.payload.price
-            }
-        },
         removeProduct: (state, action: PayloadAction<IProduct["id"]>) => ({
             ...state,
             products: state.products.filter(product => product.id !== action.payload)
@@ -82,23 +77,22 @@ const productsSlice = createSlice({
     },
     extraReducers: builder => {
         builder.addCase(addAsyncProduct.fulfilled, (state, action) => {
-            const productIndex = state.products.findIndex(product => product.id === action.payload.id)
+            const productIndex = state.products.findIndex(product => product.name === action.payload.name)
             return {
                 ...state,
                 validationState: ValidationState.Fulfilled,
                 errorMessage: undefined,
                 products: productIndex !== -1
                     ? state.products.map(item => {
-                            if (item.id === action.payload.id) {
+                            if (item.name.toUpperCase() === action.payload.name.toUpperCase()) {
                                 return {
                                     ...item,
-                                    ...action.payload,
                                     qty: item.qty + +action.payload.qty
                                 }
                             }
                             return item
                         })
-                    : [...state.products, { ...action.payload, qty: +action.payload.qty, price: +action.payload.price}]
+                    : [...state.products, { ...action.payload, qty: +action.payload.qty, price: +action.payload.price, id: generateRandomId(), img: dummy}]
             }
         })
         builder.addCase(addAsyncProduct.rejected, (state, action) => ({
@@ -130,7 +124,7 @@ const productsSlice = createSlice({
     }
 })
 
-export const {addProduct, removeProduct, incrementProduct, decrementProduct} = productsSlice.actions
+export const {removeProduct, incrementProduct, decrementProduct} = productsSlice.actions
 
 export const getProductsSelector = (state: RootState) => state.products.products
 export const getTotalPrice = (state: RootState) => state.products.products.reduce((acc, next) => acc += (next.qty * next.price), 0)

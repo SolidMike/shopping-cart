@@ -1,10 +1,10 @@
-import {IProduct} from "./Products/products.slice";
+import {IProduct} from "../components/Products/products.slice";
 
 export const fetchProducts = (products:IProduct[]): Promise<IProduct[]> => new Promise((resolve, reject) => {
     setTimeout(() => {
         if(!products.length) reject('В корзине нет товаров')
         resolve(products)
-    }, 3000)
+    }, 2000)
 })
 
 export const validateProduct = (product: IProduct): Promise<IProduct> => new Promise((resolve, reject) => setTimeout(() => {

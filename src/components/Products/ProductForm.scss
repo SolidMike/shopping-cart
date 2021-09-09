@@ -1,0 +1,19 @@
+.product-form {
+  &__title {
+
+  }
+  &__form {
+    display: flex;
+    flex-direction: column;
+    > *:not(:first-child) {
+      margin-top: 0.5rem
+    }
+  }
+  &__label {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__input {
+    margin-left: 0.5rem;
+  }
+}

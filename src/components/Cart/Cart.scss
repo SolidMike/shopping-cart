@@ -1,0 +1,19 @@
+.cart {
+  background-color: #fff;
+  &__header {
+    padding: 3rem;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  &__body {
+
+  }
+  &__footer {
+    display: grid;
+    grid-template-areas: "form summary";
+    grid-template-columns: repeat(2, 1fr);
+    place-items: center;
+    background-color: #f5d5ac;
+    padding: 3rem;
+  }
+}
