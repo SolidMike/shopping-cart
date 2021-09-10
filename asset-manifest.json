@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/shopping-cart/static/css/main.ead4c8c3.chunk.css",
+    "main.js": "/shopping-cart/static/js/main.4d6e9393.chunk.js",
+    "main.js.map": "/shopping-cart/static/js/main.4d6e9393.chunk.js.map",
+    "runtime-main.js": "/shopping-cart/static/js/runtime-main.19d89b20.js",
+    "runtime-main.js.map": "/shopping-cart/static/js/runtime-main.19d89b20.js.map",
+    "static/css/2.3d7f5d76.chunk.css": "/shopping-cart/static/css/2.3d7f5d76.chunk.css",
+    "static/js/2.56e378c9.chunk.js": "/shopping-cart/static/js/2.56e378c9.chunk.js",
+    "static/js/2.56e378c9.chunk.js.map": "/shopping-cart/static/js/2.56e378c9.chunk.js.map",
+    "static/js/3.f2ee052e.chunk.js": "/shopping-cart/static/js/3.f2ee052e.chunk.js",
+    "static/js/3.f2ee052e.chunk.js.map": "/shopping-cart/static/js/3.f2ee052e.chunk.js.map",
+    "index.html": "/shopping-cart/index.html",
+    "static/css/2.3d7f5d76.chunk.css.map": "/shopping-cart/static/css/2.3d7f5d76.chunk.css.map",
+    "static/css/main.ead4c8c3.chunk.css.map": "/shopping-cart/static/css/main.ead4c8c3.chunk.css.map",
+    "static/js/2.56e378c9.chunk.js.LICENSE.txt": "/shopping-cart/static/js/2.56e378c9.chunk.js.LICENSE.txt",
+    "static/media/morrowind.36a933b4.png": "/shopping-cart/static/media/morrowind.36a933b4.png",
+    "static/media/Summary.scss": "/shopping-cart/static/media/shopping-cart.04a29e1a.svg",
+    "static/media/witcher.70797f81.png": "/shopping-cart/static/media/witcher.70797f81.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.19d89b20.js",
+    "static/css/2.3d7f5d76.chunk.css",
+    "static/js/2.56e378c9.chunk.js",
+    "static/css/main.ead4c8c3.chunk.css",
+    "static/js/main.4d6e9393.chunk.js"
+  ]
+}
