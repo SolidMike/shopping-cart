@@ -9,6 +9,10 @@
 
   &__body {
     position: relative;
+    padding: 0 2rem 0 0;
+    @media (max-width: 660px) {
+      padding: 0;
+    }
 
     &::before,
     &::after {
