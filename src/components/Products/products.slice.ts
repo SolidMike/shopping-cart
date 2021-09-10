@@ -22,6 +22,7 @@ export enum ValidationState {
 export interface IProductsSliceState {
     products: IProduct[],
     validationState?: ValidationState,
+    addProductState?: ValidationState
     errorMessage?: string,
 }
 
@@ -34,7 +35,7 @@ export const fetchAsyncProducts = createAsyncThunk(
 
 export const addAsyncProduct = createAsyncThunk(
     'products/addAsyncProduct',
-    async (newProduct:IProduct) => {
+    async (newProduct: IProduct) => {
         return await validateProduct(newProduct)
     }
 )
@@ -61,15 +62,15 @@ const productsSlice = createSlice({
             ...state,
             products: state.products.filter(product => product.id !== action.payload)
         }),
-        incrementProduct: (state, action:PayloadAction<string>) => {
+        incrementProduct: (state, action: PayloadAction<string>) => {
             const productIndex = state.products.findIndex(product => product.id === action.payload)
-            if(productIndex !== -1) {
+            if (productIndex !== -1) {
                 state.products[productIndex].qty += 1
             }
         },
-        decrementProduct: (state, action:PayloadAction<string>) => {
+        decrementProduct: (state, action: PayloadAction<string>) => {
             const productIndex = state.products.findIndex(product => product.id === action.payload)
-            if(productIndex !== -1) {
+            if (productIndex !== -1) {
                 state.products[productIndex].qty = Math.max(0, state.products[productIndex].qty - 1)
             }
         },
@@ -77,32 +78,41 @@ const productsSlice = createSlice({
     },
     extraReducers: builder => {
         builder.addCase(addAsyncProduct.fulfilled, (state, action) => {
-            const productIndex = state.products.findIndex(product => product.name === action.payload.name)
+            const productIndex = state.products.findIndex(product => product.name.toUpperCase() === action.payload.name.toUpperCase())
             return {
                 ...state,
                 validationState: ValidationState.Fulfilled,
+                addProductState: ValidationState.Fulfilled,
                 errorMessage: undefined,
                 products: productIndex !== -1
                     ? state.products.map(item => {
-                            if (item.name.toUpperCase() === action.payload.name.toUpperCase()) {
-                                return {
-                                    ...item,
-                                    qty: item.qty + +action.payload.qty
-                                }
+                        if (item.name.toUpperCase() === action.payload.name.toUpperCase()) {
+                            return {
+                                ...item,
+                                qty: item.qty + +action.payload.qty
                             }
-                            return item
-                        })
-                    : [...state.products, { ...action.payload, qty: +action.payload.qty, price: +action.payload.price, id: generateRandomId(), img: dummy}]
+                        }
+                        return item
+                    })
+                    : [...state.products, {
+                        ...action.payload,
+                        qty: +action.payload.qty,
+                        price: +action.payload.price,
+                        id: generateRandomId(),
+                        img: dummy
+                    }]
             }
         })
         builder.addCase(addAsyncProduct.rejected, (state, action) => ({
             ...state,
             validationState: ValidationState.Rejected,
+            addProductState: ValidationState.Rejected,
             errorMessage: action.error.message,
         }))
         builder.addCase(addAsyncProduct.pending, (state, action) => ({
             ...state,
             validationState: ValidationState.Pending,
+            addProductState: ValidationState.Pending,
             errorMessage: undefined,
         }))
         builder.addCase(fetchAsyncProducts.fulfilled, (state, action) => ({
@@ -131,5 +141,6 @@ export const getTotalPrice = (state: RootState) => state.products.products.reduc
 export const getTotalAmount = (state: RootState) => state.products.products.reduce((acc, next) => acc += next.qty, 0)
 export const getErrorMessage = (state: RootState) => state.products.errorMessage
 export const isPending = (state: RootState) => (state.products.validationState === ValidationState.Pending)
+export const isSuccess = (state: RootState) => (state.products.addProductState === ValidationState.Fulfilled)
 
 export default productsSlice.reducer

@@ -1,5 +1,6 @@
 .counter {
   display: flex;
+
   &__btn {
     font-weight: 600;
     border-radius: 50%;
@@ -7,14 +8,17 @@
     transition: all .2s ease-in-out;
     height: 40px;
     width: 40px;
+
     &:hover,
     &:focus {
       background-color: #efefef;
     }
+
     &:active {
       background-color: #dedede;
     }
   }
+
   &__amount {
     font-size: 1.3rem;
     font-weight: 600;

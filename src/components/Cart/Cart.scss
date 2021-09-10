@@ -1,19 +1,47 @@
 .cart {
   background-color: #fff;
+
   &__header {
-    padding: 3rem;
+    padding: 2rem;
     font-size: 2rem;
     font-weight: 600;
   }
-  &__body {
 
+  &__body {
+    position: relative;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      height: 3px;
+      width: 25vw;
+      background-color: #31353F;
+    }
+
+    &::before {
+      top: -3px;
+      left: 10%;
+    }
+
+    &::after {
+      bottom: -3px;
+      right: 10%;
+    }
   }
+
   &__footer {
     display: grid;
     grid-template-areas: "form summary";
     grid-template-columns: repeat(2, 1fr);
     place-items: center;
-    background-color: #f5d5ac;
-    padding: 3rem;
+    background-color: #ffcb92;
+    padding: 2rem;
+    grid-gap: calc(0.5rem + 1vw);
+    @media (max-width: 660px) {
+      grid-template-areas: "form";
+      grid-template-columns: 1fr;
+      grid-gap: 0;
+    }
   }
 }

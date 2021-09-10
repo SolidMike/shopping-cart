@@ -25,7 +25,8 @@ const state: IProductsSliceState = {
 it('products have been fetched successfully', async () => {
     const fetchAsyncProductsAction = fetchAsyncProducts();
     (fetchProducts as jest.MockedFunction<typeof fetchProducts>).mockImplementationOnce(() => Promise.resolve(state.products))
-    const actual = await fetchAsyncProductsAction(dispatch, () => {}, undefined)
+    const actual = await fetchAsyncProductsAction(dispatch, () => {
+    }, undefined)
     const newState = reducer(state, actual)
     expect(newState.products.length).toBe(3)
 })
@@ -46,7 +47,8 @@ it('new item added into cart. Products length should be incremented', async () =
         qty: 1,
         img: ''
     });
-    const actual = await addAsyncProductAction(dispatch, () => {}, undefined);
+    const actual = await addAsyncProductAction(dispatch, () => {
+    }, undefined);
 
     const newState = reducer(state, actual)
 
@@ -57,12 +59,12 @@ it('new item added into cart. Products length should be incremented', async () =
 
 it('product quantity has been incremented', () => {
 
-        expect(reducer(state, incrementProduct('1'))).toEqual({
-                ...state,
-                products: state.products.map(
-                    (item, i) => i === 0 ? {...item, qty: 2} : item
-                )
-        })
+    expect(reducer(state, incrementProduct('1'))).toEqual({
+        ...state,
+        products: state.products.map(
+            (item, i) => i === 0 ? {...item, qty: 2} : item
+        )
+    })
 })
 
 it('product quantity has been decremented', () => {

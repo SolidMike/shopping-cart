@@ -27,7 +27,8 @@ const ProductsList: React.FC<ProductsListProps> = () => {
 
     return (
         <div className="products-list">
-            {isLoading ? <Loader/> : products.map(product => <div key={product.id} className="products-list__item">
+            {isLoading ? <Loader/> : products.map(product => <div key={product.id} className="products-list__item"
+                                                                  data-testid="product-element">
                 <div className="products-list__first-half">
                     <img className="products-list__img products-list__img--bg--triangle" src={product.img}
                          alt={product.name}/>

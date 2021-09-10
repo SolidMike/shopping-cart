@@ -1,8 +1,10 @@
 @import '~@csstools/normalize.css';
 
-html,body {
+html, body {
   height: 100%;
+  font-family: Arial, sans-serif;
 }
+
 body {
   margin: 0;
   padding: 0;
@@ -15,4 +17,29 @@ button {
   font-family: inherit;
   padding: 0;
   cursor: pointer;
+  transition: all .3s ease-in-out;
+}
+
+.btn {
+  background-color: #31353F;
+  color: #fff;
+  font-weight: 600;
+  max-width: 288px;
+  padding: 1rem;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 3px #000;
+
+  &:hover,
+  &:focus {
+    background-color: #fa742b;
+  }
+
+  &:active {
+    box-shadow: inset 3px 3px 3px #000;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
